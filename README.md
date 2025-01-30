@@ -41,6 +41,10 @@ Response:
 
 
 {
+  "id": 1,
+  "valorEmprestimo": 10000,
+  "dataNascimento": "1990-01-01",
+  "prazoMeses": 12,
   "valorTotalPago": 10272.84,
   "valorParcelaMensal": 856.07,
   "totalJurosPagos": 272.84
