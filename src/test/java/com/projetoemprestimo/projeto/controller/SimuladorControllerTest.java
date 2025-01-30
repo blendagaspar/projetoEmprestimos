@@ -1,7 +1,7 @@
 package com.projetoemprestimo.projeto.controller;
 
 import com.projetoemprestimo.projeto.model.Simulacao;
-import com.projetoemprestimo.projeto.service.SimuladorService;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -21,7 +21,7 @@ public class SimuladorControllerTest {
     private MockMvc mockMvc;
 
     @MockitoBean
-    private SimuladorService simuladorService;
+    private com.exemplo.simuladorcredito.service.SimuladorService simuladorService;
 
     @Test
     public void testSimularEmprestimo() throws Exception {

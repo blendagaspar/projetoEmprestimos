@@ -1,6 +1,9 @@
-package com.projetoemprestimo.projeto.service;
+package com.exemplo.simuladorcredito.service;
+
 
 import com.projetoemprestimo.projeto.model.Simulacao;
+import com.projetoemprestimo.projeto.repository.SimulacaoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -8,6 +11,9 @@ import java.time.Period;
 
 @Service
 public class SimuladorService {
+
+    @Autowired
+    private SimulacaoRepository simulacaoRepository;
 
     public double calcularJuros(Simulacao simulacao) {
         int idade = calcularIdade(simulacao.getDataNascimento());
@@ -40,5 +46,16 @@ public class SimuladorService {
     private int calcularIdade(LocalDate dataNascimento) {
         return Period.between(dataNascimento, LocalDate.now()).getYears();
     }
-}
 
+    public Simulacao salvarSimulacao(Simulacao simulacao) {
+        double parcelaMensal = calcularParcelaMensal(simulacao);
+        double totalJuros = calcularTotalJuros(simulacao);
+        double totalPago = parcelaMensal * simulacao.getPrazoMeses();
+
+        simulacao.setValorParcelaMensal(parcelaMensal);
+        simulacao.setTotalJurosPagos(totalJuros);
+        simulacao.setValorTotalPago(totalPago);
+
+        return simulacaoRepository.save(simulacao);
+    }
+}

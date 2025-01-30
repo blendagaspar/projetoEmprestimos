@@ -1,7 +1,7 @@
 package com.projetoemprestimo.projeto.controller;
 
 import com.projetoemprestimo.projeto.model.Simulacao;
-import com.projetoemprestimo.projeto.service.SimuladorService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,7 +16,7 @@ import java.util.Map;
 public class SimuladorController {
 
     @Autowired
-    private SimuladorService simuladorService;
+    private com.exemplo.simuladorcredito.service.SimuladorService simuladorService;
 
     @PostMapping("/simular")
     public Map<String, Double> simularEmprestimo(@RequestBody Simulacao simulacao) {
