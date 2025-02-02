@@ -1,6 +1,6 @@
+com\projetoemprestimo\projeto\service\SimuladorService.class
 com\projetoemprestimo\projeto\repository\SimulacaoRepository.class
 com\projetoemprestimo\projeto\model\Simulacao.class
 com\projetoemprestimo\projeto\config\OpenApiConfig.class
 com\projetoemprestimo\projeto\controller\SimuladorController.class
 com\projetoemprestimo\projeto\ProjetoApplication.class
-com\exemplo\simuladorcredito\service\SimuladorService.class

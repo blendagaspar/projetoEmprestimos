@@ -1,8 +1,9 @@
-package com.exemplo.simuladorcredito.service;
+package com.projetoemprestimo.projeto.service;
 
 
 import com.projetoemprestimo.projeto.model.Simulacao;
 import com.projetoemprestimo.projeto.repository.SimulacaoRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

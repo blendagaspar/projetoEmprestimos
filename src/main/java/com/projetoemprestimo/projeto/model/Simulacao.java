@@ -1,20 +1,18 @@
 package com.projetoemprestimo.projeto.model;
 
-import jakarta.persistence.*;
+
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 
 import java.time.LocalDate;
 
-@Getter
-@Setter
-@Entity
-@Table(name = "simulacao")
+@Data
+@Document(collection = "simulacoes")
 public class Simulacao {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private double valorEmprestimo;
