@@ -7,11 +7,11 @@ Esta é uma aplicação Spring Boot que simula empréstimos com base no valor so
 Pré-requisitos:
 
 Antes de executar a aplicação, certifique-se de ter os seguintes itens instalados:
-Java 17 ou superior
+-Java 17 ou superior
 
-Maven
+-Maven 
 
-Banco de dados: pgAdmin 4
+-Banco de dados: MongoDB
 
 ====================================================================================
 
@@ -28,26 +28,26 @@ Siga os passos abaixo para configurar e executar a aplicação localmente:
 
 =====================================================================================
 
-POST /simulador/simular
+POST /simulador
 
 Request:
 {
-  "valorEmprestimo": 10000,
-  "dataNascimento": "1990-01-01",
-  "prazoMeses": 12
+  "valorEmprestimo": 50000,
+  "dataNascimento": "2000-02-05",
+  "prazoMeses": 10
 }
+
 
 Response:
 
-
 {
-  "id": 1,
-  "valorEmprestimo": 10000,
-  "dataNascimento": "1990-01-01",
-  "prazoMeses": 12,
-  "valorTotalPago": 10272.84,
-  "valorParcelaMensal": 856.07,
-  "totalJurosPagos": 272.84
+  "valorEmprestimo": 50000,
+  "dataNascimento": "2000-02-05",
+  "prazoMeses": 10,
+  "taxaJurosAnual": 5,
+  "valorTotalPago": 51152.97970529659,
+  "parcelaMensal": 5115.297970529658,
+  "totalJuros": 1152.9797052965878
 }
 
 ```
