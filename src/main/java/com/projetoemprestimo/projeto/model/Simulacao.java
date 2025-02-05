@@ -1,10 +1,8 @@
 package com.projetoemprestimo.projeto.model;
 
-
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-
 
 import java.time.LocalDate;
 
@@ -13,12 +11,13 @@ import java.time.LocalDate;
 public class Simulacao {
 
     @Id
-    private Long id;
+    private String id;
 
     private double valorEmprestimo;
     private LocalDate dataNascimento;
     private int prazoMeses;
+    private double taxaJurosAnual;
     private double valorTotalPago;
-    private double valorParcelaMensal;
-    private double totalJurosPagos;
+    private double parcelaMensal;
+    private double totalJuros;
 }

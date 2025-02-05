@@ -1,9 +1,9 @@
 package com.projetoemprestimo.projeto.service;
 
-
+import com.projetoemprestimo.projeto.dto.SimulacaoRequest;
+import com.projetoemprestimo.projeto.dto.SimulacaoResponse;
 import com.projetoemprestimo.projeto.model.Simulacao;
 import com.projetoemprestimo.projeto.repository.SimulacaoRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,47 +16,41 @@ public class SimuladorService {
     @Autowired
     private SimulacaoRepository simulacaoRepository;
 
-    public double calcularJuros(Simulacao simulacao) {
-        int idade = calcularIdade(simulacao.getDataNascimento());
-        if (idade <= 25) {
-            return 0.05;
-        } else if (idade <= 40) {
-            return 0.03;
-        } else if (idade <= 60) {
-            return 0.02;
-        } else {
-            return 0.04;
-        }
+    public SimulacaoResponse simularEmprestimo(SimulacaoRequest request) {
+        int idade = Period.between(request.getDataNascimento(), LocalDate.now()).getYears();
+        double taxaAnual = determinarTaxaJuros(idade);
+        double taxaMensal = taxaAnual / 12 / 100;
+
+        double pmt = (request.getValorEmprestimo() * taxaMensal) / (1 - Math.pow(1 + taxaMensal, -request.getPrazoMeses()));
+        double valorTotalPago = pmt * request.getPrazoMeses();
+        double totalJuros = valorTotalPago - request.getValorEmprestimo();
+
+        Simulacao simulacao = new Simulacao();
+        simulacao.setValorEmprestimo(request.getValorEmprestimo());
+        simulacao.setDataNascimento(request.getDataNascimento());
+        simulacao.setPrazoMeses(request.getPrazoMeses());
+        simulacao.setTaxaJurosAnual(taxaAnual);
+        simulacao.setParcelaMensal(pmt);
+        simulacao.setValorTotalPago(valorTotalPago);
+        simulacao.setTotalJuros(totalJuros);
+
+        simulacaoRepository.save(simulacao);
+
+        return new SimulacaoResponse(
+                request.getValorEmprestimo(),
+                request.getDataNascimento(),
+                request.getPrazoMeses(),
+                taxaAnual,
+                valorTotalPago,
+                pmt,
+                totalJuros
+        );
     }
 
-    public double calcularParcelaMensal(Simulacao simulacao) {
-        double jurosAnual = calcularJuros(simulacao);
-        double jurosMensal = jurosAnual / 12;
-        double valorEmprestimo = simulacao.getValorEmprestimo();
-        int prazoMeses = simulacao.getPrazoMeses();
-
-        double pmt = (valorEmprestimo * jurosMensal) / (1 - Math.pow(1 + jurosMensal, -prazoMeses));
-        return pmt;
-    }
-
-    public double calcularTotalJuros(Simulacao simulacao) {
-        double parcelaMensal = calcularParcelaMensal(simulacao);
-        return (parcelaMensal * simulacao.getPrazoMeses()) - simulacao.getValorEmprestimo();
-    }
-
-    private int calcularIdade(LocalDate dataNascimento) {
-        return Period.between(dataNascimento, LocalDate.now()).getYears();
-    }
-
-    public Simulacao salvarSimulacao(Simulacao simulacao) {
-        double parcelaMensal = calcularParcelaMensal(simulacao);
-        double totalJuros = calcularTotalJuros(simulacao);
-        double totalPago = parcelaMensal * simulacao.getPrazoMeses();
-
-        simulacao.setValorParcelaMensal(parcelaMensal);
-        simulacao.setTotalJurosPagos(totalJuros);
-        simulacao.setValorTotalPago(totalPago);
-
-        return simulacaoRepository.save(simulacao);
+    private double determinarTaxaJuros(int idade) {
+        if (idade <= 25) return 5.0;
+        if (idade <= 40) return 3.0;
+        if (idade <= 60) return 2.0;
+        return 4.0;
     }
 }
